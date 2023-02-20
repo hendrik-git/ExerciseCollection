@@ -7,12 +7,14 @@ include(Catch)
 # Unit tests for the GameEngine library
 # -------------------------------------------------------------------------------------------------
 add_executable(TestApp
-    ${CMAKE_CURRENT_SOURCE_DIR}/task1.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MathProblems.cpp
 )
 target_link_libraries(TestApp PRIVATE Catch2::Catch2WithMain)
 set_target_properties(TestApp PROPERTIES 
-    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>")
-SetFolderInVS(TestApp Test)
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
+)
+target_compile_features(TestApp PUBLIC cxx_std_20)
+#SetFolderInVS(TestApp Test)
 
 # copy all necessary files (i.e. dlls) to the directory of the executable this is necessary on
 # Windows, since it doesn't support relative paths to libraries there is currently a bug, where a

@@ -71,8 +71,8 @@ include(poxy)
 # Visual Studio settings
 # -------------------------------------------------------------------------------------------------
 # set the active project to the executable in Visual Studio
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT GameCollectionApp)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TestApp)
 # set the working directory to the /bin directory
-set_target_properties(GameCollectionApp PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>")
+set_target_properties(TestApp PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>")
 # neatly put all targets in their folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
