@@ -1,0 +1,80 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "flags-windows",
+            "description": "Set up the compile flags for MSVC",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "/MP /utf-8 /permissive- /EHsc"
+            }
+        },
+        {
+            "name": "flags-unix",
+            "description": "Set up the compile flags for GCC and Clang",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "-Wall -WError"
+            }
+        },
+        {
+            "name": "Clang MSVC amd64",
+            "displayName": "Clang 12.0.0 (MSVC CLI) - amd64",
+            "description": "Using compilers: C = C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\Llvm\\x64\\bin\\clang-cl.exe, CXX = C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\Llvm\\x64\\bin\\clang-cl.exe",
+            "generator": "Visual Studio 16 2019",
+            "toolset": "ClangCL,host=x64",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\Llvm\\x64\\bin\\clang-cl.exe",
+                "CMAKE_CXX_COMPILER": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\Llvm\\x64\\bin\\clang-cl.exe"
+            }
+        },
+        {
+            "name": "MSVC amd64",
+            "displayName": "MSVC2019 - amd64",
+            "description": "Using compilers for Visual Studio 16 2019 (x64 architecture)",
+            "generator": "Visual Studio 16 2019",
+            "toolset": "host=x64",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "Clang MSVC amd64 - Debug",
+            "displayName": "Clang MSVC amd64 - Debug",
+            "configurePreset": "Clang MSVC amd64",
+            "configuration": "Debug"
+        },
+        {
+            "name": "Clang MSVC amd64 - Release",
+            "displayName": "Clang MSVC amd64 - Release",
+            "configurePreset": "Clang MSVC amd64",
+            "configuration": "Release"
+        },
+        {
+            "name": "MSVC amd64 - Debug",
+            "displayName": "MSVC amd64 - Debug",
+            "configurePreset": "MSVC amd64",
+            "configuration": "Debug"
+        },
+        {
+            "name": "MSVC amd64 - Release",
+            "displayName": "MSVC amd64 - Release",
+            "configurePreset": "MSVC amd64",
+            "configuration": "Release"
+        }
+    ]
+}
