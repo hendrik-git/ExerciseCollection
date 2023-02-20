@@ -1,5 +1,10 @@
-# Prerequisites
-*.d
+# Directories
+bin
+build
+lib
+docs/html
+docs/xml
+.vs
 
 # Compiled Object files
 *.slo
@@ -16,10 +21,6 @@
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
-
 # Compiled Static libraries
 *.lai
 *.la
@@ -30,3 +31,14 @@
 *.exe
 *.out
 *.app
+
+# Special files
+**/CppCheckReport.xml
+**/CMakeCache.txt
+**/CMakeUserPresets.json
+**/CTestTestfile.cmake
+**/CPackConfig.cmake
+**/cmake_install.cmake
+**/install_manifest.txt
+**/compile_commands.json
+**/m.math.cache
