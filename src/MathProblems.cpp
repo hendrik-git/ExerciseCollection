@@ -84,3 +84,51 @@ TEST_CASE("Least common multiple", "[Math]")
 	CHECK(least_common_multiple(12, 16) == std::lcm(12, 16));
 	CHECK(least_common_multiple(99, 33) == std::lcm(99, 33));
 }
+
+
+//=================================================================================================
+// Largest prime number below given value
+
+/// @brief Returns the largest prime number up to a given value
+/// @param value Upper limit for which to search prime numbers for
+auto find_largest_prime_up_to(int value)
+{
+	assert(value > 0 && "requires a positive non zero input");
+
+	// if(value == 1)
+	//	return 1;
+
+	// a prime number can only be divided by itself and 1
+	auto is_prime_number = [](auto value)
+	{
+		bool is_prime = true;
+
+		for(auto i = value - 1; i > 1; --i)
+		{
+			if(value % i == 0)
+				is_prime = false;
+		}
+
+		return is_prime;
+	};
+
+	while(value > 0)
+	{
+		if(is_prime_number(value))
+			return value;
+		--value;
+	}
+	return 1;
+}
+
+TEST_CASE("Largest prime number", "[Math]")
+{
+	// 2 3 5 7 11 ...
+	CHECK(find_largest_prime_up_to(2) == 2);
+	CHECK(find_largest_prime_up_to(3) == 3);
+	CHECK(find_largest_prime_up_to(5) == 5);
+	CHECK(find_largest_prime_up_to(7) == 7);
+	CHECK(find_largest_prime_up_to(8) == 7);
+	CHECK(find_largest_prime_up_to(11) == 11);
+	CHECK(find_largest_prime_up_to(12) == 11);
+}
