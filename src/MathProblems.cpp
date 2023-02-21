@@ -58,3 +58,29 @@ TEST_CASE("Greatest common divisor", "[Math]")
 	CHECK(greatest_common_divisor(12, 16) == std::gcd(12, 16));
 	CHECK(greatest_common_divisor(99, 33) == std::gcd(99, 33));
 }
+
+
+//=================================================================================================
+// Write a program that will, given two or more positive integers, calculate and print the least
+// common multiple of them all.
+
+/// @brief Returns the least common multiple of two positive input numbers
+/// @note there is also std::lcm() in the <numerics> header
+auto least_common_multiple(auto a, auto b) -> int
+{
+	assert(a > 0 && "requires a positive input for a");
+	assert(b > 0 && "requires a positive input for b");
+
+	for(auto i = std::max(a, b); i <= (a * b); ++i)
+	{
+		if(i % a == 0 && i % b == 0)
+			return i;
+	}
+};
+
+TEST_CASE("Least common multiple", "[Math]")
+{
+	CHECK(least_common_multiple(3, 1) == std::lcm(3, 1));
+	CHECK(least_common_multiple(12, 16) == std::lcm(12, 16));
+	CHECK(least_common_multiple(99, 33) == std::lcm(99, 33));
+}
