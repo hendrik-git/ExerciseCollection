@@ -28,8 +28,9 @@ auto get_divisible_numbers(int max_val, std::set<int> valids)
 
 TEST_CASE("Divisible by 3 or 5", "[Math]")
 {
-	auto values = get_divisible_numbers(100, {3, 5});
-	REQUIRE(std::ranges::all_of(values, [](auto x) { return (x % 3) == 0 || (x % 5) == 0; }));
+	auto values				 = get_divisible_numbers(100, {3, 5});
+	auto divisible_by_3_or_5 = [](auto x) { return (x % 3) == 0 || (x % 5) == 0; };
+	CHECK(std::ranges::all_of(values, divisible_by_3_or_5));
 }
 
 
@@ -39,7 +40,7 @@ TEST_CASE("Divisible by 3 or 5", "[Math]")
 
 /// @brief Returns the greatest common divisor of two positive input numbers
 /// @note there is also std::gcd() in the <numerics> header
-auto greatest_common_divisor(auto a, auto b) -> std::optional<int>
+auto greatest_common_divisor(auto a, auto b) -> int
 {
 	assert(a > 0 && "requires a positive input for a");
 	assert(b > 0 && "requires a positive input for b");
@@ -49,12 +50,11 @@ auto greatest_common_divisor(auto a, auto b) -> std::optional<int>
 		if(a % i == 0 && b % i == 0)
 			return i;
 	}
-	return {};
 };
 
 TEST_CASE("Greatest common divisor", "[Math]")
 {
-	REQUIRE(greatest_common_divisor(03, 01).value() == std::gcd(03, 01));
-	REQUIRE(greatest_common_divisor(12, 16).value() == std::gcd(12, 16));
-	REQUIRE(greatest_common_divisor(99, 33).value() == std::gcd(99, 33));
+	CHECK(greatest_common_divisor(3, 1) == std::gcd(3, 1));
+	CHECK(greatest_common_divisor(12, 16) == std::gcd(12, 16));
+	CHECK(greatest_common_divisor(99, 33) == std::gcd(99, 33));
 }
