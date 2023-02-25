@@ -9,7 +9,7 @@ include(Catch)
 add_executable(TestApp
     ${CMAKE_CURRENT_SOURCE_DIR}/MathProblems.cpp
 )
-target_link_libraries(TestApp PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(TestApp PRIVATE Catch2::Catch2WithMain fmt::fmt)
 set_target_properties(TestApp PROPERTIES 
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
 )
