@@ -3,7 +3,7 @@
 # -------------------------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.24)
 project(
-    GameCollection
+    ExerciseCollection
     VERSION 0.1.0
     DESCRIPTION "A collection of exercises"
     LANGUAGES CXX
