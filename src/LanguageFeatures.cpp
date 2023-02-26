@@ -1,5 +1,7 @@
 #include <catch2/catch_all.hpp>
 #include <compare>
+#include <concepts>
+#include <deque>
 #include <fmt/format.h>
 #include <iostream>
 #include <numeric>
@@ -175,12 +177,48 @@ TEST_CASE("IPv4 class", "[LanguageFeatures]")
 
 	SECTION("Range function")
 	{
-		auto ip1 = IPv4{0, 0, 0, 1};
-		auto ip2 = IPv4{0, 0, 0, 4};
+		auto ip1		  = IPv4{0, 0, 0, 1};
+		auto ip2		  = IPv4{0, 0, 0, 4};
 		auto list_of_ipv4 = list_all_ipv4_between(ip1, ip2);
 		CHECK(list_of_ipv4.size() == 3);
 		CHECK(list_of_ipv4.at(0) == 1);
 		CHECK(list_of_ipv4.at(1) == 2);
 		CHECK(list_of_ipv4.at(2) == 3);
 	}
+}
+
+//=================================================================================================
+// Write a general-purpose function that can add any number of elements to the end of a container
+// that has a method push_back(T&& value).
+
+template<typename T, typename... Args>
+concept push_back_able = requires(T& container, Args&&... args)
+{
+	(container.push_back(args), ...);
+};
+
+template<push_back_able T, typename... Args>
+auto generic_push_back(T& container, Args&&... args)
+{
+	(container.push_back(args), ...);
+}
+
+TEST_CASE("Generic adding a range of values to a container", "[LanguageFeatures]")
+{
+	std::vector<int>  ivec;
+	std::deque<float> fdeq;
+	std::string		  str;
+
+	generic_push_back(ivec, 1, 2);
+	generic_push_back(fdeq, 1.F, 2.F);
+	generic_push_back(str, 'H', 'P');
+
+	CHECK(ivec.size() == 2);
+	CHECK(ivec.at(0) == 1);
+	CHECK(ivec.at(1) == 2);
+	CHECK(fdeq.size() == 2);
+	CHECK(fdeq.at(0) == 1.F);
+	CHECK(fdeq.at(1) == 2.F);
+	CHECK(str.size() == 2);
+	CHECK(str == "HP");
 }
