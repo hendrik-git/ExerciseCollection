@@ -1,4 +1,5 @@
 #include <catch2/catch_all.hpp>
+#include <concepts>
 #include <iostream>
 #include <numeric>
 #include <ranges>
@@ -131,4 +132,33 @@ TEST_CASE("Largest prime number", "[Math]")
 	CHECK(find_largest_prime_up_to(8) == 7);
 	CHECK(find_largest_prime_up_to(11) == 11);
 	CHECK(find_largest_prime_up_to(12) == 11);
+}
+
+
+//=================================================================================================
+// Approximate pi
+
+/// @brief Approximates PI using the Gregory-Leibniz series
+/// @details The equation is 
+/// $$\pi = (4/1)-(4/3)+(4/5)-(4/7)+(4/9)-(4/11)+(4/13)-(4/15) ...$$
+/// @tparam T float or double
+/// @param iterations how many iterations are run to approximate pi
+/// @return a floating point type
+template<typename T>
+requires std::floating_point<T>
+auto approximate_pi(size_t iterations)
+{
+	T pi = 0;
+	for(auto i = 0; i < iterations; ++i)
+	{
+		T sign = i % 2 == 0 ? 1.0 : -1.0;
+		pi += sign * static_cast<T>((4.0 / (1.0 + 2.0 * i)));
+	}
+	return pi;
+}
+
+TEST_CASE("Approximate Pi", "[Math]")
+{
+	CHECK_THAT(approximate_pi<float>(100), Catch::Matchers::WithinRel(3.14159, 0.01));
+	CHECK_THAT(approximate_pi<double>(1000), Catch::Matchers::WithinRel(3.14159, 0.001));
 }
