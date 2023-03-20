@@ -7,6 +7,7 @@ include(Catch)
 # Unit tests for the GameEngine library
 # -------------------------------------------------------------------------------------------------
 add_executable(TestApp
+    ${CMAKE_CURRENT_SOURCE_DIR}/DesignPatternProblems.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/LanguageFeatures.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MathProblems.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/StringProblems.cpp
