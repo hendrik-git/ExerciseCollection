@@ -1,4 +1,5 @@
 #include <catch2/catch_all.hpp>
+#include <string>
 #include <string_view>
 
 //=================================================================================================
@@ -19,7 +20,7 @@ class length_validator final : public password_validator
   public:
 	explicit length_validator(unsigned min_length) : length(min_length) {}
 
-	~length_validator() final = default;
+	~length_validator() override = default;
 
 	auto validate(std::string_view password) -> bool override
 	{
@@ -106,7 +107,6 @@ class case_password_validator final : public password_validator_decorator
 	}
 };
 
-
 class symbol_password_validator final : public password_validator_decorator
 {
   public:
@@ -141,4 +141,15 @@ TEST_CASE("Validating passwords", "[DesignPatterns]")
 	auto validator2 = std::make_unique<symbol_password_validator>(std::move(has_case));
 	CHECK(validator2->validate("Abc123!@#") == true);
 	CHECK(validator2->validate("Abc123567") == false);	// missing special symbol
+}
+
+
+//=================================================================================================
+// Write a program that can generate random passwords according to some predefined rules. Every
+// password must have a configurable minimum length.In addition, it should be possible to include in
+// the generation rules such as the presence of at least one digit, symbol, lower or uppercase
+// character, and so on. These additional rules must be configurable and composable.
+
+class password_generator
+{
 }
