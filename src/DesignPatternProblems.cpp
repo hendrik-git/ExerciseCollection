@@ -152,4 +152,16 @@ TEST_CASE("Validating passwords", "[DesignPatterns]")
 
 class password_generator
 {
+  public:
+	virtual ~password_generator() = default;
+
+	virtual auto generate() -> std::string									= 0;
+	virtual auto allowed_chars() const -> std::string						= 0;
+	virtual auto length() const -> size_t									= 0;
+	virtual auto add(std::unique_ptr<password_generator> generator) -> void = 0;
+};
+
+
+TEST_CASE("Generating passwords", "[DesignPatterns]")
+{
 }
