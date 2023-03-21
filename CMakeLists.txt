@@ -65,7 +65,8 @@ include(graphviz)
 include(cmake-format)
 include(cmake-lint)
 include(cpp_check)
-include(poxy)
+#include(poxy)
+include(documentation)
 
 # -------------------------------------------------------------------------------------------------
 # Visual Studio settings
