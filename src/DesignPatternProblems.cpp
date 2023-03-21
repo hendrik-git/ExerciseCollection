@@ -277,4 +277,18 @@ class composite_password_generator final : public password_generator
 
 TEST_CASE("Generating passwords", "[DesignPatterns]")
 {
+	composite_password_generator generator;
+	generator.add(std::make_unique<symbol_generator>(2));
+	generator.add(std::make_unique<digit_generator>(2));
+	generator.add(std::make_unique<upper_letter_generator>(2));
+	generator.add(std::make_unique<lower_letter_generator>(4));
+	auto password = generator.generate();
+	INFO("The generated password is " + password);
+
+	// Using the password validator for verifying the generated password
+	auto has_length = std::make_unique<length_validator>(10);
+	auto has_digits = std::make_unique<digit_password_validator>(std::move(has_length));
+	auto has_case	= std::make_unique<case_password_validator>(std::move(has_digits));
+	auto validator	= std::make_unique<symbol_password_validator>(std::move(has_case));
+	CHECK(validator->validate(password) == true);
 }
