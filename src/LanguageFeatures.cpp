@@ -1,26 +1,14 @@
-#include <catch2/catch_all.hpp>
-#include <compare>
-#include <concepts>
-#include <deque>
+#include <ExerciseCollection/LanguageFeatures.hpp>
+#include <algorithm>
 #include <fmt/format.h>
-#include <iostream>
-#include <numeric>
 #include <ranges>
+#include <vector>
 
-//=================================================================================================
-// Write a class that represents an IPv4 address. Implement the functions required to be able to
-// read and write such addresses from or to the console. The user should be able to input values in
-// dotted form, such as 127.0.0.1 or 168.192.0.100. This is also the form in which IPv4 addresses
-// should be formatted to an output stream
-
-/// @brief
-/// @details An IPv4 adress is a 32-bit value, usually represented in decimal dotted format, such as
-/// 168.192.0.100; each part of it is an 8-bit value, ranging from 0 to 255
-class IPv4
+namespace LanguageFeatures
 {
-  public:
-	/// @brief Constructs an IPv4 object from an absolute value
-	IPv4(uint32_t input)
+#pragma region IPv4
+
+	IPv4::IPv4(uint32_t input)
 	{
 		address_[0] = input & 0xff;
 		address_[1] = (input >> 8) & 0xff;
@@ -28,8 +16,7 @@ class IPv4
 		address_[3] = (input >> 24) & 0xff;
 	}
 
-	/// @brief Constructs an IPv4 object in the form of "a.b.c.d"
-	IPv4(std::uint8_t a, std::uint8_t b, std::uint8_t c, std::uint8_t d)
+	IPv4::IPv4(std::uint8_t a, std::uint8_t b, std::uint8_t c, std::uint8_t d)
 	{
 		address_[3] = a;
 		address_[2] = b;
@@ -37,8 +24,7 @@ class IPv4
 		address_[0] = d;
 	}
 
-	/// @brief Constructs an IPv4 object from a string delimited by '.'
-	IPv4(std::string_view input)
+	IPv4::IPv4(std::string_view input)
 	{
 		// needs to be a string_view, as a rvalue string ends with \0
 		constexpr std::string_view delimiter{"."};
@@ -56,13 +42,9 @@ class IPv4
 		}
 	}
 
-	/// @brief Spaceship operator
-	/// @details Defaulting this operator enables the compiler to generate all comparator functions
-	auto operator<=>(const IPv4&) const = default;
-
 	/// @brief Conversion operator to an uint32_t()
 	/// @details This represents the array of smaller values as a single value of bigger type
-	explicit operator uint32_t() const
+	IPv4::operator uint32_t() const
 	{
 		constexpr uint32_t m1 = 256;
 		constexpr uint32_t m2 = 256 * 256;
@@ -71,7 +53,7 @@ class IPv4
 	}
 
 	/// @brief Preincrement operator
-	IPv4& operator++()
+	IPv4& IPv4::operator++()
 	{
 		*this = IPv4(1 + static_cast<uint32_t>(*this));
 		return *this;
@@ -79,146 +61,32 @@ class IPv4
 
 	/// @brief Postincrement operator
 	/// @param dummy parameter to disambiguate from preincrement operator
-	IPv4& operator++(int)
+	IPv4& IPv4::operator++(int)
 	{
 		*this = IPv4(1 + static_cast<uint32_t>(*this));
 		return *this;
 	}
 
-	/// @brief Stream insertion operator
-	/// @param os target output stream
-	/// @param obj insertion target
-	/// @return input stream to allow chaining
-	friend std::ostream& operator<<(std::ostream& os, const IPv4& obj);
-
-  private:
-	std::array<uint8_t, 4> address_;
-};
-
-std::ostream& operator<<(std::ostream& os, const IPv4& obj)
-{
-	os << fmt::format(
-		"{}.{}.{}.{}", obj.address_[3], obj.address_[2], obj.address_[1], obj.address_[0]);
-
-	// write obj to stream
-	return os;
-}
-
-//=================================================================================================
-// Write a program that allows the user to input two IPv4 addresses representing a range and list
-// all the addresses in that range. Extend the structure defined for the previous problem to
-// implement the requested functionality
-
-/// @brief Returns a vector of all IPv4 object inside the defined range
-///
-auto list_all_ipv4_between(const IPv4& start, const IPv4& end)
-{
-	std::vector<IPv4> result;
-	const auto [min, max] = std::minmax(uint32_t{start}, uint32_t{end});
-	for(auto i = min; i < max; i++)
+	/// @bug error type
+	std::ostream& operator<<(std::ostream& os, const IPv4& obj)
 	{
-		result.push_back({i});
+		os << fmt::format(
+			"{}.{}.{}.{}", obj.address_[3], obj.address_[2], obj.address_[1], obj.address_[0]);
+
+		return os;	// write obj to stream
 	}
-	return result;
-}
+#pragma endregion
 
-TEST_CASE("IPv4 class", "[LanguageFeatures]")
-{
-	using namespace std::string_literals;
-	std::stringstream ss1;
-	std::stringstream ss2;
-
-	SECTION("String constructor")
+	/// @brief Returns a vector of all IPv4 object inside the defined range
+	auto list_all_ipv4_between(const IPv4& start, const IPv4& end) -> std::vector<IPv4>
 	{
-		auto ip1 = IPv4{"127.0.0.1"};
-		auto ip2 = IPv4{"168.192.0.100"};
-		ss1 << ip1;
-		ss2 << ip2;
-		CHECK(ss1.str() == "127.0.0.1");
-		CHECK(ss2.str() == "168.192.0.100");
+		std::vector<IPv4> result;
+		const auto [min, max] = std::minmax(uint32_t{start}, uint32_t{end});
+		for(auto i = min; i < max; i++)
+		{
+			result.push_back(IPv4{i});
+		}
+		return result;
 	}
 
-	SECTION("Value constructor")
-	{
-		auto ip1 = IPv4{10};
-		auto ip2 = IPv4{257};
-		ss1 << ip1;
-		ss2 << ip2;
-		CHECK(ss1.str() == "0.0.0.10");
-		CHECK(ss2.str() == "0.0.1.1");
-	}
-
-	SECTION("Values constructor")
-	{
-		auto ip1 = IPv4{127, 0, 0, 1};
-		auto ip2 = IPv4{168, 192, 0, 100};
-		ss1 << ip1;
-		ss2 << ip2;
-		CHECK(ss1.str() == "127.0.0.1");
-		CHECK(ss2.str() == "168.192.0.100");
-	}
-
-	SECTION("Comparison")
-	{
-		auto ip1 = IPv4{127, 0, 0, 1};
-		auto ip2 = IPv4{168, 192, 0, 100};
-
-		CHECK(ip1 < ip2);
-	}
-
-	SECTION("Incrementing")
-	{
-		auto ip = IPv4{0, 0, 0, 1};
-		ss1 << ip;
-		ss2 << ++ip;
-		CHECK(ss1.str() == "0.0.0.1");
-		CHECK(ss2.str() == "0.0.0.2");
-	}
-
-	SECTION("Range function")
-	{
-		auto ip1		  = IPv4{0, 0, 0, 1};
-		auto ip2		  = IPv4{0, 0, 0, 4};
-		auto list_of_ipv4 = list_all_ipv4_between(ip1, ip2);
-		CHECK(list_of_ipv4.size() == 3);
-		CHECK(list_of_ipv4.at(0) == 1);
-		CHECK(list_of_ipv4.at(1) == 2);
-		CHECK(list_of_ipv4.at(2) == 3);
-	}
-}
-
-//=================================================================================================
-// Write a general-purpose function that can add any number of elements to the end of a container
-// that has a method push_back(T&& value).
-
-template<typename T, typename... Args>
-concept push_back_able = requires(T& container, Args&&... args)
-{
-	(container.push_back(args), ...);
-};
-
-template<push_back_able T, typename... Args>
-auto generic_push_back(T& container, Args&&... args)
-{
-	(container.push_back(args), ...);
-}
-
-TEST_CASE("Generic adding a range of values to a container", "[LanguageFeatures]")
-{
-	std::vector<int>  ivec;
-	std::deque<float> fdeq;
-	std::string		  str;
-
-	generic_push_back(ivec, 1, 2);
-	generic_push_back(fdeq, 1.F, 2.F);
-	generic_push_back(str, 'H', 'P');
-
-	CHECK(ivec.size() == 2);
-	CHECK(ivec.at(0) == 1);
-	CHECK(ivec.at(1) == 2);
-	CHECK(fdeq.size() == 2);
-	CHECK(fdeq.at(0) == 1.F);
-	CHECK(fdeq.at(1) == 2.F);
-	CHECK(str.size() == 2);
-	CHECK(str == "HP");
-}
+}  // namespace LanguageFeatures
