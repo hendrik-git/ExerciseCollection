@@ -56,6 +56,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     enable_testing()    
     include(CTest)
     add_subdirectory(src)
+    add_subdirectory(test)
 endif()
 
 # -------------------------------------------------------------------------------------------------
