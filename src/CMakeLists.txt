@@ -3,11 +3,13 @@
 # -------------------------------------------------------------------------------------------------
 add_library(ExerciseCollection STATIC
     # Header files
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/DataSerialization.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/DesignPatternProblems.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/LanguageFeatures.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/MathProblems.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/StringProblems.hpp
     # Source files
+    ${CMAKE_CURRENT_SOURCE_DIR}/DataSerialization.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/DesignPatternProblems.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/LanguageFeatures.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MathProblems.cpp
