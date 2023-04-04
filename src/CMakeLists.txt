@@ -18,9 +18,10 @@ add_library(ExerciseCollection STATIC
 add_library(Exercise::Collection ALIAS ExerciseCollection)
 
 target_link_libraries(ExerciseCollection 
-    PRIVATE
+    PUBLIC
         fmt::fmt
         tomlplusplus::tomlplusplus
+        nlohmann::json
 )
 target_include_directories(ExerciseCollection 
     PUBLIC 

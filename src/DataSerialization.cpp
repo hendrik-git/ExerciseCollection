@@ -2,6 +2,7 @@
 #include <fmt/format.h>
 #include <fstream>
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include <tomlplusplus/toml.hpp>
 
 namespace DataSerialization
