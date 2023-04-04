@@ -7,6 +7,7 @@
 
 namespace DataSerialization
 {
+#pragma region TOML
 	/// @brief Converts a movie to a toml-table representation
 	/// @param movie
 	/// @return
@@ -118,4 +119,11 @@ namespace DataSerialization
 		}
 		return result;
 	}
+#pragma endregion
+
+#pragma region JSON
+	void save_as_json(const movie_list& movies, const fs::path& save_to) {}
+
+	auto load_from_json(const fs::path& load_from) -> movie_list {}
+#pragma endregion
 }  // namespace DataSerialization
