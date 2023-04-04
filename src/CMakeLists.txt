@@ -18,9 +18,9 @@ add_library(ExerciseCollection STATIC
 add_library(Exercise::Collection ALIAS ExerciseCollection)
 
 target_link_libraries(ExerciseCollection 
-    PRIVATE 
-        Catch2::Catch2WithMain 
+    PRIVATE
         fmt::fmt
+        tomlplusplus::tomlplusplus
 )
 target_include_directories(ExerciseCollection 
     PUBLIC 

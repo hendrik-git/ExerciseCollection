@@ -39,7 +39,10 @@ mark_as_advanced(ADDITIONAL_COMPILER_FLAGS)
 # Download and enable all dependencies
 # -------------------------------------------------------------------------------------------------
 # package manager build on top of fetch_content, see https://github.com/cpm-cmake/CPM.cmake
-include(CPM) 
+include(CPM)
+# CPMAddPackage("uri@version")     # A git package from a given uri with a version
+# CPMAddPackage("uri#tag")         # A git package from a given uri with a git tag or commit hash
+# CPMAddPackage("uri@version#tag") # A git package with both version and tag provided
 
 # replaced by std::format
 CPMAddPackage("gh:fmtlib/fmt#a33701196adfad74917046096bf5a2aa0ab0bb50") # v9.1.0 [2022.08.27]
@@ -55,6 +58,7 @@ setfolderinvs(Catch2WithMain Dependencies)
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     enable_testing()    
     include(CTest)
+    add_subdirectory(extern)
     add_subdirectory(src)
     add_subdirectory(test)
 endif()
