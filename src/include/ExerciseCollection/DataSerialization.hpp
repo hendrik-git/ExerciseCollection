@@ -28,4 +28,7 @@ namespace DataSerialization
 		auto operator<=>(const movie&) const = default;
 	};
 
-} // namespace DataSerialization
+	/// @brief A collection of movies
+	using movie_list = std::vector<movie>;
+
+}  // namespace DataSerialization
