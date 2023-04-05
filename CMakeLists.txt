@@ -28,7 +28,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 # flags globally will also cause them to be used for dependencies. This may result in the
 # dependencies breaking the build with warnings (with /WX or -Werror)
 if(MSVC)
-    set(ADDITIONAL_COMPILER_FLAGS /MP /W4 ) # /utf-8  /WX /fastfail 
+    set(ADDITIONAL_COMPILER_FLAGS /MP /W4 /diagnostics:caret /fastfail /utf-8 ) # /WX  
 else()
     #set(ADDITIONAL_COMPILER_FLAGS -Werror -Wall)
 endif()
