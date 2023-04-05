@@ -20,8 +20,10 @@ add_library(Exercise::Collection ALIAS ExerciseCollection)
 target_link_libraries(ExerciseCollection 
     PUBLIC
         fmt::fmt
+    PRIVATE
         tomlplusplus::tomlplusplus
         nlohmann::json
+        pugixml::pugixml
 )
 target_include_directories(ExerciseCollection 
     PUBLIC 

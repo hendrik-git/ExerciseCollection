@@ -52,6 +52,9 @@ CPMAddPackage("gh:catchorg/Catch2#97c48e0c343d26d50764fafdc90b1e630fbd10ce") # v
 setfolderinvs(Catch2 Dependencies)
 setfolderinvs(Catch2WithMain Dependencies)
 
+CPMAddPackage("gh:zeux/pugixml@1.13")
+setfolderinvs(pugixml-static Dependencies)
+
 # -------------------------------------------------------------------------------------------------
 # Building the targets
 # -------------------------------------------------------------------------------------------------

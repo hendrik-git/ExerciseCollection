@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <pugixml.hpp>
 #include <tomlplusplus/toml.hpp>
 
 namespace DataSerialization
