@@ -50,6 +50,7 @@ namespace StringProblems
 				return cha - 'a' + 10;
 
 			assert(false && "invalid character passed for conversion");
+			return char{};
 		};
 		auto chars = str | std::views::transform(convert_to_char);
 
