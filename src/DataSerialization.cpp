@@ -262,34 +262,33 @@ namespace DataSerialization
 			}
 			return result;
 		}
-	}
 
-	auto load_from_json(const fs::path& load_from) -> movie_list
-	{
-		movie_list result;
-
-		if(std::ifstream ifile(load_from); ifile.is_open())
+		auto get_from_xpath(const fs::path&		   load_from,
+							const std::string_view xpath,
+							const std::string_view attribute) -> std::vector<std::string>
 		{
+			std::vector<std::string> result;
+			pugi::xml_document		 doc;
+
+			if(auto loading_sucess = doc.load_file(load_from.c_str()); !loading_sucess)
+			{
+				std::cerr << "Failed to load the xml-file" << std::endl;
+				return result;
+			}
+
 			try
 			{
-				json jdata;
-				if(ifile >> jdata; jdata.is_object())
+				auto elements = doc.select_nodes(xpath.data());
+				for(auto it : elements)
 				{
-					for(const auto& movie : jdata.at("movies"))
-					{
-						// implicitly converted by from_json()
-						result.push_back(movie);
-					}
+					result.emplace_back(it.node().attribute(attribute.data()).as_string());
 				}
 			}
-			catch(const std::exception& e)
+			catch(pugi::xpath_exception const& e)
 			{
-				std::cout << e.what() << std::endl;
+				std::cerr << e.result().description() << std::endl;
 			}
+			return result;
 		}
-		return result;
-	}
-#pragma endregion
-
 	}  // namespace XML
 }  // namespace DataSerialization

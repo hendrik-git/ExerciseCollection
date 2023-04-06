@@ -78,5 +78,20 @@ namespace DataSerialization
 		/// @return a collection of movies
 		auto load_from_xml(const fs::path& load_from) -> movie_list;
 
+		/// @brief Loads a xml-file and filters the nodes with the xpath syntax
+		/// @details XPath is a query language used for selecting and navigating through elements
+		/// and attributes in an XML or HTML document. It provides a way to traverse the
+		/// hierarchical structure of an XML document and to identify specific nodes that match
+		/// certain criteria. XPath expressions are written using a syntax similar to that of a file
+		/// path, where each element in the path is separated by a forward slash (/) and can be
+		/// selected using various filters and predicates.
+		/// @see https://en.wikipedia.org/wiki/XPath
+		/// @param load_from filepath to load from
+		/// @param xpath special parsing syntax to look for matching nodes
+		/// @param attribute name of the attribute to read the data from
+		/// @return all matching entries as a vector<string>
+		auto get_from_xpath(const fs::path&		   load_from,
+							const std::string_view xpath,
+							const std::string_view attribute) -> std::vector<std::string>;
 	}  // namespace XML
 }  // namespace DataSerialization

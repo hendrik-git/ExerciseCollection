@@ -97,4 +97,14 @@ TEST_CASE("Saving data to XML", "[DataSerialization][XML]")
 		CHECK(movies[i].cast == loaded_movies[i].cast);
 	}
 
+	SECTION("Using XPath to select nodes")
+	{
+		// From all movies, get the name of the last actor in the cast
+		auto result1 = std::vector<std::string>{"Laurence Fishburne", "Tom Hanks"};
+		CHECK(get_from_xpath(savefile, "/movies/movie/cast/cast[last()]", "name") == result1);
+		
+		// Get the names of all movies released after 1995
+		auto result2 = std::vector<std::string>{"The Matrix"};
+		CHECK(get_from_xpath(savefile, "/movies/movie[@year>1995]", "title") == result2);
+	};
 }
