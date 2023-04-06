@@ -191,58 +191,76 @@ namespace DataSerialization
 
 	inline namespace XML
 	{
+		void save_as_xml(const movie_list& movies, const fs::path& save_to)
+		{
+			pugi::xml_document doc;
+			auto			   root = doc.append_child("movies");
 
-			// get the underlying array object to do some more advanced stuff
-			if(const auto* cast = data["cast"].as_table())
+			for(auto const& m : movies)
 			{
-				for(const auto& [key, val] : *cast)
+				auto movie_node = root.append_child("movie");
+				movie_node.append_attribute("id").set_value(m.id);
+				movie_node.append_attribute("title").set_value(m.title.c_str());
+				movie_node.append_attribute("year").set_value(m.year);
+				movie_node.append_attribute("length").set_value(m.length);
+				auto cast_node = movie_node.append_child("cast");
+				for(auto const& [key, val] : m.cast)
 				{
-					temp.cast[std::string{key.str()}] =
-						std::string{val.as_string()->value_or("---")};
+					auto node = cast_node.append_child("cast");
+					node.append_attribute("name").set_value(key.c_str());
+					node.append_attribute("role").set_value(val.c_str());
+				}
+				auto directors_node = movie_node.append_child("directors");
+				for(auto const& director : m.directors)
+				{
+					directors_node.append_child("director")
+						.append_attribute("name")
+						.set_value(director.c_str());
+				}
+				auto writers_node = movie_node.append_child("writers");
+				for(auto const& writer : m.writers)
+				{
+					writers_node.append_child("writer").append_attribute("name").set_value(
+						writer.c_str());
 				}
 			}
-			result.push_back(temp);
+			doc.save_file(save_to.c_str());
 		}
-		return result;
-	}
-#pragma endregion
 
-#pragma region JSON
-	using json = nlohmann::json;
-
-	/// @brief Implicit conversion function from movie to json-data
-	/// @param j input movie to be converted
-	/// @param p output json-data
-	void to_json(json& j, const movie& m)
-	{
-		j = json{{"id", m.id},
-				 {"title", m.title},
-				 {"year", m.year},
-				 {"length", m.length},
-				 {"directors", m.directors},
-				 {"writers", m.writers},
-				 {"cast", m.cast}};
-	}
-
-	/// @brief Implicit conversion function from json-data to movie
-	/// @param j input movie to be converted
-	/// @param p output json-data
-	void from_json(const json& j, movie& m)
-	{
-		m.id		= j.at("id").get<unsigned>();
-		m.title		= j.at("title").get<std::string>();
-		m.year		= j.at("year").get<unsigned>();
-		m.length	= j.at("length").get<unsigned>();
-		m.cast		= j.at("cast").get<casting_role>();
-		m.directors = j.at("directors").get<std::vector<std::string>>();
-		m.writers	= j.at("writers").get<std::vector<std::string>>();
-	}
-
-	void save_as_json(const movie_list& movies, const fs::path& save_to)
-	{
-		if(std::ofstream jsonfile(save_to); jsonfile.is_open())
+		auto load_from_xml(const fs::path& load_from) -> movie_list
 		{
-			jsonfile << json{{"movies", movies}}.dump(4) << std::endl;
+			movie_list		   result;
+			pugi::xml_document doc;
+
+			if(auto loading_sucess = doc.load_file(load_from.c_str()); !loading_sucess)
+			{
+				std::cerr << "Failed to load the xml-file" << std::endl;
+				return result;
+			}
+
+			for(const auto& movie_node : doc.child("movies"))
+			{
+				movie m;
+				m.id	 = movie_node.attribute("id").as_uint();
+				m.title	 = movie_node.attribute("title").as_string();
+				m.year	 = movie_node.attribute("year").as_uint();
+				m.length = movie_node.attribute("length").as_uint();
+				for(auto role_node : movie_node.child("cast").children("cast"))
+				{
+					m.cast[role_node.attribute("name").as_string()] =
+						role_node.attribute("role").as_string();
+				}
+				for(auto director_node : movie_node.child("directors").children("director"))
+				{
+					m.directors.emplace_back(director_node.attribute("name").as_string());
+				}
+				for(auto writer_node : movie_node.child("writers").children("writer"))
+				{
+					m.writers.emplace_back(writer_node.attribute("name").as_string());
+				}
+				result.push_back(m);
+			}
+			return result;
 		}
 	}
 
