@@ -65,16 +65,18 @@ namespace DataSerialization
 		auto load_from_json(const fs::path& load_from) -> movie_list;
 	}  // namespace JSON
 
+	/// @brief Functions to (de)serialize data to the XML format
+	inline namespace XML
+	{
+		/// @brief Saves a collection of movies to a file in the XML format
+		/// @param movies to save
+		/// @param save_to filepath to save to
+		void save_as_xml(const movie_list& movies, const fs::path& save_to);
 
-#pragma region XML
-	/// @brief Saves a collection of movies to a file in the XML format
-	/// @param movies to save
-	/// @param save_to filepath to save to
-	void save_as_xml(const movie_list& movies, const fs::path& save_to);
+		/// @brief Loads a collection of movies from a XML file
+		/// @param load_from filepath to load from
+		/// @return a collection of movies
+		auto load_from_xml(const fs::path& load_from) -> movie_list;
 
-	/// @brief Loads a collection of movies from a XML file
-	/// @param load_from filepath to load from
-	/// @return a collection of movies
-	auto load_from_xml(const fs::path& load_from) -> movie_list;
-#pragma endregion
+	}  // namespace XML
 }  // namespace DataSerialization
