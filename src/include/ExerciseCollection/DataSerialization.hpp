@@ -35,18 +35,21 @@ namespace DataSerialization
 		using movie_list = std::vector<movie>;
 
 	}  // namespace Data
-#pragma region TOML
-	/// @brief Saves a collection of movies to a file in the TOML format
-	/// @param movies to save
-	/// @param save_to filepath to save to
-	void save_as_toml(const movie_list& movies, const fs::path& save_to);
 
-	/// @brief Loads a collection of movies from a TOML file
-	/// @details Parses the file to a TOML table and converts this to a movie_list
-	/// @param load_from filepath to load from
-	/// @return a collection of movies
-	auto load_from_toml(const fs::path& load_from) -> movie_list;
-#pragma endregion
+	/// @brief Functions to (de)serialize data to the TOML format
+	inline namespace TOML
+	{
+		/// @brief Saves a collection of movies to a file in the TOML format
+		/// @param movies to save
+		/// @param save_to filepath to save to
+		void save_as_toml(const movie_list& movies, const fs::path& save_to);
+
+		/// @brief Loads a collection of movies from a TOML file
+		/// @details Parses the file to a TOML table and converts this to a movie_list
+		/// @param load_from filepath to load from
+		/// @return a collection of movies
+		auto load_from_toml(const fs::path& load_from) -> movie_list;
+	}  // namespace TOML
 
 #pragma region JSON
 	/// @brief Saves a collection of movies to a file in the TOML format
