@@ -123,48 +123,72 @@ namespace DataSerialization
 		}
 	}  // namespace TOML
 
+	inline namespace JSON
 	{
-		assert(fs::exists(load_from) && "toml file does not exist");
+		using json = nlohmann::json;
 
-		auto result	  = movie_list{};
-		auto tomlfile = toml::parse_file(load_from.c_str());
-
-		const toml::array* movies_arr = tomlfile["movies"].as_array();
-		if(movies_arr == nullptr)
+		/// @brief Implicit conversion function from movie to json-data
+		/// @param j input movie to be converted
+		/// @param p output json-data
+		void to_json(json& j, const movie& m)
 		{
+			j = json{{"id", m.id},
+					 {"title", m.title},
+					 {"year", m.year},
+					 {"length", m.length},
+					 {"directors", m.directors},
+					 {"writers", m.writers},
+					 {"cast", m.cast}};
+		}
+
+		/// @brief Implicit conversion function from json-data to movie
+		/// @param j input movie to be converted
+		/// @param p output json-data
+		void from_json(const json& j, movie& m)
+		{
+			m.id		= j.at("id").get<unsigned>();
+			m.title		= j.at("title").get<std::string>();
+			m.year		= j.at("year").get<unsigned>();
+			m.length	= j.at("length").get<unsigned>();
+			m.cast		= j.at("cast").get<casting_role>();
+			m.directors = j.at("directors").get<std::vector<std::string>>();
+			m.writers	= j.at("writers").get<std::vector<std::string>>();
+		}
+
+		void save_as_json(const movie_list& movies, const fs::path& save_to)
+		{
+			if(std::ofstream jsonfile(save_to); jsonfile.is_open())
+			{
+				jsonfile << json{{"movies", movies}}.dump(4) << std::endl;
+			}
+		}
+
+		auto load_from_json(const fs::path& load_from) -> movie_list
+		{
+			movie_list result;
+
+			if(std::ifstream ifile(load_from); ifile.is_open())
+			{
+				try
+				{
+					json jdata;
+					if(ifile >> jdata; jdata.is_object())
+					{
+						for(const auto& movie : jdata.at("movies"))
+						{
+							result.push_back(movie);  // implicitly converted by from_json()
+						}
+					}
+				}
+				catch(const std::exception& e)
+				{
+					std::cerr << e.what() << std::endl;
+				}
+			}
 			return result;
 		}
-		auto movie_count = movies_arr->size();
+	}  // namespace JSON
 
-		for(int i = 0; i < movie_count; ++i)
-		{
-			auto data = tomlfile["movies"][i];
-
-			movie temp;
-			temp.title	= data["title"].value<std::string>().value_or("---");
-			temp.id		= data["id"].value<unsigned>().value_or(0);
-			temp.year	= data["year"].value<unsigned>().value_or(0);
-			temp.length = data["length"].value<unsigned>().value_or(0);
-
-			// get the underlying array object to do some more advanced stuff
-			if(const auto* writers = data["writers"].as_array())
-			{
-				for(int j = 0; j < writers->size(); ++j)
-				{
-					auto str = data["writers"][j].value<std::string>().value_or("---");
-					temp.writers.push_back(str);
-				}
-			}
-
-			// get the underlying array object to do some more advanced stuff
-			if(const auto* directors = data["directors"].as_array())
-			{
-				for(int j = 0; j < directors->size(); ++j)
-				{
-					auto str = data["directors"][j].value<std::string>().value_or("---");
-					temp.directors.push_back(str);
-				}
-			}
 
 			// get the underlying array object to do some more advanced stuff
 			if(const auto* cast = data["cast"].as_table())

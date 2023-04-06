@@ -51,17 +51,20 @@ namespace DataSerialization
 		auto load_from_toml(const fs::path& load_from) -> movie_list;
 	}  // namespace TOML
 
-#pragma region JSON
-	/// @brief Saves a collection of movies to a file in the TOML format
-	/// @param movies to save
-	/// @param save_to filepath to save to
-	void save_as_json(const movie_list& movies, const fs::path& save_to);
+	/// @brief Functions to (de)serialize data to the JSON format
+	inline namespace JSON
+	{
+		/// @brief Saves a collection of movies to a file in the TOML format
+		/// @param movies to save
+		/// @param save_to filepath to save to
+		void save_as_json(const movie_list& movies, const fs::path& save_to);
 
-	/// @brief Loads a collection of movies from a TOML file
-	/// @param load_from filepath to load from
-	/// @return a collection of movies
-	auto load_from_json(const fs::path& load_from) -> movie_list;
-#pragma endregion
+		/// @brief Loads a collection of movies from a TOML file
+		/// @param load_from filepath to load from
+		/// @return a collection of movies
+		auto load_from_json(const fs::path& load_from) -> movie_list;
+	}  // namespace JSON
+
 
 #pragma region XML
 	/// @brief Saves a collection of movies to a file in the XML format
