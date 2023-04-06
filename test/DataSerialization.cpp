@@ -73,3 +73,28 @@ TEST_CASE("Saving data to JSON", "[DataSerialization][JSON]")
 		CHECK(movies[i].cast == loaded_movies[i].cast);
 	}
 }
+
+
+TEST_CASE("Saving data to XML", "[DataSerialization][XML]")
+{
+	fs::path savefile = "movies.xml";
+	save_as_xml(movies, savefile);
+	REQUIRE(fs::exists(savefile));
+
+	auto loaded_movies = load_from_xml(savefile);
+
+	REQUIRE(movies.size() == loaded_movies.size());
+	for(auto i = 0; i < movies.size(); i++)
+	{
+		CHECK(movies[i] == loaded_movies[i]);
+
+		CHECK(movies[i].title == loaded_movies[i].title);
+		CHECK(movies[i].id == loaded_movies[i].id);
+		CHECK(movies[i].year == loaded_movies[i].year);
+		CHECK(movies[i].length == loaded_movies[i].length);
+		CHECK(movies[i].directors == loaded_movies[i].directors);
+		CHECK(movies[i].writers == loaded_movies[i].writers);
+		CHECK(movies[i].cast == loaded_movies[i].cast);
+	}
+
+}
