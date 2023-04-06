@@ -10,27 +10,31 @@ namespace DataSerialization
 {
 	namespace fs = std::filesystem;
 
-	/// @brief Maps an actor to their role
-	using casting_role = std::map<std::string, std::string, std::less<>>;
-
-	/// @brief Holds all data relevant to a single movie
-	struct movie
+	/// @brief Example data to (de)serialize
+	inline namespace Data
 	{
-		unsigned				 id;		 //!< identifier
-		std::string				 title;		 //!< of the movie
-		unsigned				 year;		 //!< of release
-		unsigned				 length;	 //!< movie length
-		std::vector<std::string> directors;	 //!< list of directors
-		std::vector<std::string> writers;	 //!< list of writers
-		casting_role			 cast;		 //!< actors and their role
+		/// @brief Maps an actor to their role
+		using casting_role = std::map<std::string, std::string, std::less<>>;
 
-		/// @brief Default generated comparison operators
-		auto operator<=>(const movie&) const = default;
-	};
+		/// @brief Data for a Movie
+		struct movie
+		{
+			unsigned				 id;		 //!< identifier
+			std::string				 title;		 //!< of the movie
+			unsigned				 year;		 //!< of release
+			unsigned				 length;	 //!< movie length
+			std::vector<std::string> directors;	 //!< list of directors
+			std::vector<std::string> writers;	 //!< list of writers
+			casting_role			 cast;		 //!< actors and their role
 
-	/// @brief A collection of movies
-	using movie_list = std::vector<movie>;
+			/// @brief Default generated comparison operators
+			auto operator<=>(const movie&) const = default;
+		};
 
+		/// @brief A collection of movies
+		using movie_list = std::vector<movie>;
+
+	}  // namespace Data
 #pragma region TOML
 	/// @brief Saves a collection of movies to a file in the TOML format
 	/// @param movies to save
