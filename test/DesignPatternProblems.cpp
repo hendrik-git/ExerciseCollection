@@ -10,6 +10,8 @@ using namespace DesignPatterns;
 // symbol, digit, uppercase and lowercase letter, and so on
 TEST_CASE("Validating passwords", "[DesignPatterns]")
 {
+	using namespace Decorator;
+
 	auto validator1 =
 		std::make_unique<digit_password_validator>(std::make_unique<length_validator>(8));
 	CHECK(validator1->validate("abc123!@#") == true);
@@ -31,6 +33,9 @@ TEST_CASE("Validating passwords", "[DesignPatterns]")
 // character, and so on. These additional rules must be configurable and composable.
 TEST_CASE("Generating passwords", "[DesignPatterns]")
 {
+	using namespace Composite;
+	using namespace Decorator;
+
 	composite_password_generator generator;
 	generator.add(std::make_unique<symbol_generator>(2));
 	generator.add(std::make_unique<digit_generator>(2));
@@ -45,4 +50,6 @@ TEST_CASE("Generating passwords", "[DesignPatterns]")
 	auto has_case	= std::make_unique<case_password_validator>(std::move(has_digits));
 	auto validator	= std::make_unique<symbol_password_validator>(std::move(has_case));
 	CHECK(validator->validate(password) == true);
+}
+
 }
