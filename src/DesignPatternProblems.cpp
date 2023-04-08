@@ -1,6 +1,7 @@
 #include <ExerciseCollection/DesignPatternProblems.hpp>
 #include <algorithm>
 #include <array>
+#include <fmt/printf.h>
 #include <random>
 #include <ranges>
 #include <stdexcept>
@@ -175,4 +176,52 @@ namespace DesignPatterns::Composite
 	}
 #pragma endregion
 }  // namespace DesignPatterns::Composite
+
+namespace DesignPatterns::ChainOfResponsibility
 {
+	auto employee_role::approval_limit() const noexcept -> double
+	{
+		return 1'000;
+	}
+
+	auto team_manager_role::approval_limit() const noexcept -> double
+	{
+		return 10'000;
+	}
+
+	auto department_manager_role::approval_limit() const noexcept -> double
+	{
+		return 100'000;
+	}
+
+	auto president_role::approval_limit() const noexcept -> double
+	{
+		return std::numeric_limits<double>::max();
+	}
+
+	employee::employee(std::string_view name, std::unique_ptr<role> ownrole)
+		: name(name), own_role(std::move(ownrole))
+	{
+	}
+
+	auto employee::set_direct_manager(std::shared_ptr<employee> manager)
+		-> std::shared_ptr<employee>
+	{
+		direct_manager = manager;
+		return manager;
+	}
+
+	auto employee::approve(expense const& e) -> std::string
+	{
+		if(e.amount <= own_role->approval_limit())
+		{
+			return fmt::format("{} approved", name /*, e.description, e.amount*/);
+		}
+		else if(direct_manager != nullptr)
+		{
+			return direct_manager->approve(e);
+		}
+		return "Failed to approve";
+	}
+
+}  // namespace DesignPatterns::ChainOfResponsibility

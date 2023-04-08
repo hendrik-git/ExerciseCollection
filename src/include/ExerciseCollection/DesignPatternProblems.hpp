@@ -158,5 +158,51 @@ namespace DesignPatterns
 
 	namespace ChainOfResponsibility
 	{
+		struct role
+		{
+			virtual double approval_limit() const noexcept = 0;
+			virtual ~role()								   = default;
+		};
+
+		struct employee_role : public role
+		{
+			auto approval_limit() const noexcept -> double override;
+		};
+
+		struct team_manager_role : public role
+		{
+			auto approval_limit() const noexcept -> double override;
+		};
+
+		struct department_manager_role : public role
+		{
+			auto approval_limit() const noexcept -> double override;
+		};
+
+		struct president_role : public role
+		{
+			auto approval_limit() const noexcept -> double override;
+		};
+
+		struct expense
+		{
+			double		amount;
+			std::string description;
+		};
+
+		class employee
+		{
+		  public:
+			explicit employee(std::string_view name, std::unique_ptr<role> ownrole);
+
+			auto set_direct_manager(std::shared_ptr<employee> manager) -> std::shared_ptr<employee>;
+
+			auto approve(expense const& e) -> std::string;
+
+		  private:
+			std::string				  name;
+			std::unique_ptr<role>	  own_role;
+			std::shared_ptr<employee> direct_manager;
+		};
 	}  // namespace ChainOfResponsibility
 }  // namespace DesignPatterns

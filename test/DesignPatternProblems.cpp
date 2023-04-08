@@ -52,4 +52,19 @@ TEST_CASE("Generating passwords", "[DesignPatterns]")
 	CHECK(validator->validate(password) == true);
 }
 
+TEST_CASE("Chain of Responsibility", "[DesignPatterns]")
+{
+	using namespace ChainOfResponsibility;
+
+	auto john	= std::make_shared<employee>("John", std::make_unique<employee_role>());
+	auto robert = std::make_shared<employee>("Robert", std::make_unique<team_manager_role>());
+	auto david	= std::make_shared<employee>("Dave", std::make_unique<department_manager_role>());
+	auto frank	= std::make_shared<employee>("Frank", std::make_unique<president_role>());
+
+	john->set_direct_manager(robert)->set_direct_manager(david)->set_direct_manager(frank);
+
+	CHECK(john->approve(expense{500, "magazins"}) == "John approved");
+	CHECK(john->approve(expense{5000, "hotel accomodation"}) == "Robert approved");
+	CHECK(john->approve(expense{50000, "conference costs"}) == "Dave approved");
+	CHECK(john->approve(expense{200000, "new lorry"}) == "Frank approved");
 }
