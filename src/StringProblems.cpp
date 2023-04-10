@@ -13,24 +13,26 @@ namespace StringProblems
 	namespace
 	{
 		/// @brief Helper function to materialize views
-		/// @param r a range / view of a container
+		/// @param view a range / view of a container
 		/// @return a materialized vector of the range / view
-		auto to_vector(auto&& r)
+		auto to_vector(auto&& view)
 		{
-			std::vector<std::ranges::range_value_t<decltype(r)>> v;
-			if constexpr(std::ranges::sized_range<decltype(r)>)
+			namespace stdr = std::ranges;
+
+			std::vector<stdr::range_value_t<decltype(view)>> vec;
+			if constexpr(stdr::sized_range<decltype(view)>)
 			{
-				v.reserve(std::ranges::size(r));
+				vec.reserve(stdr::size(view));
 			}
-			std::ranges::copy(r, std::back_inserter(v));
-			return v;
+			stdr::copy(view, std::back_inserter(vec));
+			return vec;
 		}
 	}  // namespace
 
 
 	auto to_hexadecimal_string(std::span<int> valids) -> std::string
 	{
-		auto to_string = [](auto i) { return fmt::format("{:02X}", i); };
+		auto to_string = [](auto val) { return fmt::format("{:02X}", val); };
 		auto strings   = valids | std::views::transform(to_string);
 
 		return std::accumulate(strings.begin(), strings.end(), std::string(""));
@@ -42,12 +44,20 @@ namespace StringProblems
 
 		auto convert_to_char = [](auto cha) -> unsigned char
 		{
+			const char offset = 10;
+
 			if(cha >= '0' && cha <= '9')
+			{
 				return cha - '0';
+			}
 			if(cha >= 'A' && cha <= 'F')
-				return cha - 'A' + 10;
+			{
+				return cha - 'A' + offset;
+			}
 			if(cha >= 'a' && cha <= 'f')
-				return cha - 'a' + 10;
+			{
+				return cha - 'a' + offset;
+			}
 
 			assert(false && "invalid character passed for conversion");
 			return char{};
@@ -69,7 +79,7 @@ namespace StringProblems
 
 	auto capitalize(std::string_view input) -> std::string
 	{
-		assert(input.size() > 0 && "nothing to capitalize");
+		assert(!input.empty() && "nothing to capitalize");
 
 		std::string result;
 
