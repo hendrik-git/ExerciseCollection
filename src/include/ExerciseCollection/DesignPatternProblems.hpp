@@ -89,6 +89,7 @@ namespace DesignPatterns
 			virtual auto add(std::unique_ptr<password_generator> generator) -> void = 0;
 		};
 
+		/// @brief Interface class for the implementation of a password generator
 		class basic_password_generator : public password_generator
 		{
 			size_t len_;
@@ -156,8 +157,22 @@ namespace DesignPatterns
 
 	}  // namespace Composite
 
+	/// @brief Chain of responsibility design pattern
+	/// @details The Chain of Responsibility pattern is a behavioral design pattern that allows a
+	/// group of objects to handle a request sequentially, without specifying which object should
+	/// handle the request beforehand. The pattern decouples the sender of a request from its
+	/// receiver by allowing multiple objects to handle the request in a chain-like structure.
+	/// In this pattern, each object in the chain has a reference to its successor.
+	/// If an object cannot handle the request, it forwards it to its successor. This continues
+	/// until either an object in the chain handles the request or the end of the chain is reached.
+	/// The Chain of Responsibility pattern is often used in situations where multiple objects may
+	/// be able to handle a request, and the specific object that can handle the request may not be
+	/// known at the time the request is made. It allows for flexibility in the system, as objects
+	/// can be added or removed from the chain without affecting the rest of the system's
+	/// functionality.
 	namespace ChainOfResponsibility
 	{
+		/// @brief Interface class for a role
 		struct role
 		{
 			virtual double approval_limit() const noexcept = 0;
@@ -186,17 +201,22 @@ namespace DesignPatterns
 
 		struct expense
 		{
-			double		amount;
-			std::string description;
+			double		amount;		  //!< The cost of the expense
+			std::string description;  //!< What the expense is for
 		};
 
+		/// @brief Represents an employee with a given role
 		class employee
 		{
 		  public:
+			/// @brief Constructs an employee with a name and a role
 			explicit employee(std::string_view name, std::unique_ptr<role> ownrole);
 
+			/// @brief Sets the next person in line to ask for approval when budget is exceeded
+			/// @return the next person (argument) to allow for chaining
 			auto set_direct_manager(std::shared_ptr<employee> manager) -> std::shared_ptr<employee>;
 
+			/// @brief Tries to approve an expense or forwards the request to the manager
 			auto approve(expense const& e) -> std::string;
 
 		  private:
