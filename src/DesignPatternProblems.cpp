@@ -200,26 +200,26 @@ namespace DesignPatterns::ChainOfResponsibility
 	}
 
 	employee::employee(std::string_view name, std::unique_ptr<role> ownrole)
-		: name(name), own_role(std::move(ownrole))
+		: name_(name), own_role_(std::move(ownrole))
 	{
 	}
 
 	auto employee::set_direct_manager(std::shared_ptr<employee> manager)
 		-> std::shared_ptr<employee>
 	{
-		direct_manager = manager;
+		direct_manager_ = manager;
 		return manager;
 	}
 
 	auto employee::approve(expense const& e) -> std::string
 	{
-		if(e.amount <= own_role->approval_limit())
+		if(e.amount <= own_role_->approval_limit())
 		{
-			return fmt::format("{} approved", name /*, e.description, e.amount*/);
+			return fmt::format("{} approved", name_ /*, e.description, e.amount*/);
 		}
-		else if(direct_manager != nullptr)
+		else if(direct_manager_ != nullptr)
 		{
-			return direct_manager->approve(e);
+			return direct_manager_->approve(e);
 		}
 		return "Failed to approve";
 	}

@@ -200,9 +200,9 @@ namespace DesignPatterns
 			auto approve(expense const& e) -> std::string;
 
 		  private:
-			std::string				  name;
-			std::unique_ptr<role>	  own_role;
-			std::shared_ptr<employee> direct_manager;
+			std::string				  name_;
+			std::unique_ptr<role>	  own_role_;
+			std::shared_ptr<employee> direct_manager_;
 		};
 	}  // namespace ChainOfResponsibility
 }  // namespace DesignPatterns
