@@ -225,4 +225,41 @@ namespace DesignPatterns
 			std::shared_ptr<employee> direct_manager_;
 		};
 	}  // namespace ChainOfResponsibility
+
+	namespace Observer
+	{
+		/// @brief Interface class for the Observer pattern
+		class Observer
+		{
+		  public:
+			/// @brief Every Observer is required to have a notify function
+			virtual void notify() = 0;
+			virtual ~Observer()	  = default;
+		};
+
+		/// @brief Counts how many messages were emitted by the observed subject
+		class Count_Messages_Observer final : public Observer
+		{
+		  public:
+			void notify() override;
+
+			auto get_message_count() const noexcept -> unsigned;
+
+		  private:
+			unsigned message_counter = 0;
+		};
+
+		class Subject
+		{
+		  public:
+			void register_observer(Observer& observer);
+
+			void notify_observers();
+
+		  private:
+			std::vector<std::reference_wrapper<Observer>> observers;
+		};
+
+	}  // namespace Observer
+
 }  // namespace DesignPatterns

@@ -68,3 +68,23 @@ TEST_CASE("Chain of Responsibility", "[DesignPatterns]")
 	CHECK(john->approve(expense{50000, "conference costs"}) == "Dave approved");
 	CHECK(john->approve(expense{200000, "new lorry"}) == "Frank approved");
 }
+
+TEST_CASE("Observer", "[DesignPatterns]")
+{
+	using namespace Observer;
+	Count_Messages_Observer observer1;
+	Count_Messages_Observer observer2;
+	CHECK(observer1.get_message_count() == 0);
+	CHECK(observer2.get_message_count() == 0);
+
+	Subject subject;
+	subject.register_observer(observer1);
+	subject.notify_observers();
+	CHECK(observer1.get_message_count() == 1);
+	CHECK(observer2.get_message_count() == 0);
+		
+	subject.register_observer(observer2);
+	subject.notify_observers();
+	CHECK(observer1.get_message_count() == 2);
+	CHECK(observer2.get_message_count() == 1);
+}

@@ -225,3 +225,31 @@ namespace DesignPatterns::ChainOfResponsibility
 	}
 
 }  // namespace DesignPatterns::ChainOfResponsibility
+
+
+namespace DesignPatterns::Observer
+{
+	void Count_Messages_Observer::notify()
+	{
+		message_counter++;
+	}
+
+	auto Count_Messages_Observer::get_message_count() const noexcept -> unsigned
+	{
+		return message_counter;
+	}
+
+	void Subject::register_observer(Observer& observer)
+	{
+		observers.push_back(observer);
+	}
+
+	void Subject::notify_observers()
+	{
+		for(Observer& observer : observers)
+		{
+			observer.notify();
+		}
+	}
+
+}  // namespace DesignPatterns::Observer
