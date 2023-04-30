@@ -11,6 +11,7 @@ add_executable(TestApp
     ${CMAKE_CURRENT_SOURCE_DIR}/DataSerialization.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/DesignPatternProblems.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/LanguageFeatures.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MathProblems.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/StringProblems.cpp
 )
