@@ -26,6 +26,7 @@ target_link_libraries(ExerciseCollection
         tomlplusplus::tomlplusplus
         nlohmann::json
         pugixml::pugixml
+        cryptopp::cryptopp
 )
 target_include_directories(ExerciseCollection 
     PUBLIC 
