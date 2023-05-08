@@ -7,23 +7,23 @@
 
 namespace Log
 {
-
 	/// @brief Return value used for testing the Logging functionality
 	enum class PrintStatus
 	{
 		Filtered,  //!< This message will not be printed at the current verbosity
-		Printed	   //!< this message has been printed
+		Printed,   //!< this message has been printed
+		Error	   //!< Something went wrong...
 	};
 
 	/// @brief Describes how important a message is
 	enum class Verbosity
 	{
-		Off,	//!< Disable this message
-		Debug,	//!< Message for debugging
-		Info,	//!< Normal message
-		Warn,	//!< Important message
-		Error,	//!< Something went wrong
-		Fatal	//!< Execution has run into an irrecoverable issue
+		Off	  = 0,	//!< Disable this message
+		Debug = 1,	//!< Message for debugging
+		Info  = 2,	//!< Normal message
+		Warn  = 3,	//!< Important message
+		Error = 4,	//!< Something went wrong
+		Fatal = 5	//!< Execution has run into an irrecoverable issue
 	};
 
 		/// @brief The Logger singleton
