@@ -1,9 +1,6 @@
-#include <chrono>
-#include <fmt/chrono.h>
-#include <fmt/color.h>
 #include <fmt/core.h>
 #include <iostream>
-#include <shared_mutex>
+#include <string_view>
 
 namespace Log
 {
@@ -26,28 +23,39 @@ namespace Log
 		Fatal = 5	//!< Execution has run into an irrecoverable issue
 	};
 
-		/// @brief The Logger singleton
-	/// @details Ensures that all log messages are handled in a thread safe way.
-	/// @todo PIMP it
-	class Logger final
+	class Logger
 	{
 	  public:
-		static Logger& instance()
-		{
-			static Logger logger;
-			return logger;
-		}
-		Logger(Logger const&) = delete;
-		Logger& operator=(Logger const&) = delete;
-
 		void log(Verbosity verbosity, std::string_view message);
 
+		[[nodiscard]] static auto get() -> Logger&
+		{
+			static Logger instance;
+			return instance;
+		};
+
+		[[nodiscard]] auto verbosity() const noexcept -> Verbosity
+		{
+			return verbosity_;
+		};
+
+		void verbosity(Verbosity verb) noexcept
+		{
+			verbosity_ = verb;
+		};
+
 	  protected:
-		Logger() = default;
+		Logger();
 
 	  private:
-		std::shared_mutex mut_;
-		std::atomic<bool> use_timestamp_ = false;
+		struct Logger_Impl;	 // forward declaration of the implementation class
+
+		/// Current Verbosity threshold to log messages Info by default
+		Verbosity verbosity_   = Verbosity::Info;
+		bool	  use_logfile_ = true;
+
+		// unique-ownership opaque pointer to the forward-declared implementation class
+		Logger_Impl& pImpl;
 	};
 
 
