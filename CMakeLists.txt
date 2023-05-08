@@ -58,6 +58,51 @@ setfolderinvs(pugixml-static Dependencies)
 CPMAddPackage("gh:abdes/cryptopp-cmake#CRYPTOPP_8_7_0_1")
 setfolderinvs(cryptopp Dependencies)
 
+CPMAddPackage(
+  NAME Boost
+  VERSION 1.82.0
+  GITHUB_REPOSITORY "boostorg/boost"
+  GIT_TAG "boost-1.82.0"
+)
+setfolderinvs(boost_assert Dependencies/Boost)
+setfolderinvs(boost_atomic Dependencies/Boost)
+setfolderinvs(boost_chrono Dependencies/Boost)
+setfolderinvs(boost_container Dependencies/Boost)
+setfolderinvs(boost_context Dependencies/Boost)
+setfolderinvs(boost_contract Dependencies/Boost)
+setfolderinvs(boost_core Dependencies/Boost)
+setfolderinvs(boost_coroutine Dependencies/Boost)
+setfolderinvs(boost_date_time Dependencies/Boost)
+setfolderinvs(boost_exception Dependencies/Boost)
+setfolderinvs(boost_fiber Dependencies/Boost)
+setfolderinvs(boost_fiber_numa Dependencies/Boost)
+setfolderinvs(boost_filesystem Dependencies/Boost)
+setfolderinvs(boost_graph Dependencies/Boost)
+setfolderinvs(boost_iostreams Dependencies/Boost)
+setfolderinvs(boost_json Dependencies/Boost)
+setfolderinvs(boost_locale Dependencies/Boost)
+setfolderinvs(boost_log Dependencies/Boost)
+setfolderinvs(boost_log_setup Dependencies/Boost)
+setfolderinvs(boost_nowide Dependencies/Boost)
+setfolderinvs(boost_prg_exec_monitor Dependencies/Boost)
+setfolderinvs(boost_program_options Dependencies/Boost)
+setfolderinvs(boost_random Dependencies/Boost)
+setfolderinvs(boost_serialization Dependencies/Boost)
+setfolderinvs(boost_stacktrace_basic Dependencies/Boost)
+setfolderinvs(boost_stacktrace_noop Dependencies/Boost)
+setfolderinvs(boost_stacktrace_windbg Dependencies/Boost)
+setfolderinvs(boost_stacktrace_windbg_cached Dependencies/Boost)
+setfolderinvs(boost_system Dependencies/Boost)
+setfolderinvs(boost_test_exec_monitor Dependencies/Boost)
+setfolderinvs(boost_thread Dependencies/Boost)
+setfolderinvs(boost_timer Dependencies/Boost)
+setfolderinvs(boost_type_erasure Dependencies/Boost)
+setfolderinvs(boost_unit_test_framework Dependencies/Boost)
+setfolderinvs(boost_url Dependencies/Boost)
+setfolderinvs(boost_variant2 Dependencies/Boost)
+setfolderinvs(boost_wave Dependencies/Boost)
+setfolderinvs(boost_wserialization Dependencies/Boost)
+
 # -------------------------------------------------------------------------------------------------
 # Building the targets
 # -------------------------------------------------------------------------------------------------

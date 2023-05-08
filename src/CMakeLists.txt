@@ -31,6 +31,7 @@ target_link_libraries(ExerciseCollection
         nlohmann::json
         pugixml::pugixml
         cryptopp::cryptopp
+        Boost::asio
 )
 target_include_directories(ExerciseCollection 
     PUBLIC 
