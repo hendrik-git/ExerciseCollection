@@ -60,23 +60,37 @@ namespace Log
 
 
 	template<Verbosity verbosity = Verbosity::Info, typename... Args>
-	PrintStatus logf([[maybe_unused]] fmt::format_string<Args...>&& format_str, Args&&... args)
+	// PrintStatus logf([[maybe_unused]] fmt::format_string<Args...>&& format_str, Args&&... args)
+	PrintStatus logf([[maybe_unused]] std::string_view format_str, Args&&... args)
 	{
-		// early return, this message was disabled
-		if constexpr(verbosity == Verbosity::Off)
+		try
 		{
+			// early return, this message was disabled
+			if constexpr(verbosity == Verbosity::Off)
+			{
+				return PrintStatus::Filtered;
+			}
+
+			// cached reference to the logger (there can only be one Logger due to singleton)
+			static auto& logger = Logger::get();
+
+			// the check for verbosity has bee explicitly pulled out of the log function, so that
+			// the expensive formating does not happen for a message, that will be discarded due to
+			// a low log verbosity
+			if(verbosity < logger.verbosity() || logger.verbosity() == Verbosity::Off)
+			{
+				return PrintStatus::Filtered;
+			}
+
+			// pass the message to the logger for printing
+			auto str = fmt::format(format_str, args...);
+			logger.log(verbosity, str);
 			return PrintStatus::Printed;
 		}
-
-		// if(verbosity < Verbosity::Debug || globalVerbosity.index() == 0)
-		//{
-		//	return PrintStatus::FilteredByLogLevel;
-		//}
-
-		auto  output = fmt::format(format_str, args...);
-		auto& logger = Logger::instance();
-		logger.log(verbosity, output);
-
-		return PrintStatus::Printed;
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << std::endl;
+			return PrintStatus::Error;
+		}
 	}
 }  // namespace Log
