@@ -13,6 +13,7 @@ add_executable(TestApp
     ${CMAKE_CURRENT_SOURCE_DIR}/LanguageFeatures.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MathProblems.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Network.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/StringProblems.cpp
 )
 target_link_libraries(TestApp PRIVATE Catch2::Catch2WithMain ExerciseCollection)
