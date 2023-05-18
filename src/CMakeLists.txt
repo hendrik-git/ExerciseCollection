@@ -10,6 +10,7 @@ add_library(ExerciseCollection STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/Logger.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/MathProblems.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/Network.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/RegexProblems.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/StringProblems.hpp
     # Source files
     ${CMAKE_CURRENT_SOURCE_DIR}/Cryptography.cpp
@@ -19,6 +20,7 @@ add_library(ExerciseCollection STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MathProblems.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Network.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RegexProblems.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/StringProblems.cpp
 )
 add_library(Exercise::Collection ALIAS ExerciseCollection)
@@ -32,6 +34,7 @@ target_link_libraries(ExerciseCollection
         pugixml::pugixml
         cryptopp::cryptopp
         Boost::asio
+        Boost::regex
 )
 target_include_directories(ExerciseCollection 
     PUBLIC 
