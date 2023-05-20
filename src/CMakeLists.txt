@@ -34,6 +34,7 @@ target_link_libraries(ExerciseCollection
         pugixml::pugixml
         cryptopp::cryptopp
         Boost::asio
+        Boost::json
         Boost::regex
 )
 target_include_directories(ExerciseCollection 

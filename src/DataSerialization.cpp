@@ -1,4 +1,5 @@
 #include <ExerciseCollection/DataSerialization.hpp>
+#include <boost/json.hpp>
 #include <fmt/format.h>
 #include <fstream>
 #include <iostream>
@@ -187,7 +188,32 @@ namespace DataSerialization
 			}
 			return result;
 		}
-	}  // namespace JSON
+
+		namespace Boost
+		{
+			using namespace boost::json;
+			void tag_invoke(value_from_tag, value& jv, const movie& m)
+			{
+				jv = {{"id", m.id},
+					  {"title", m.title},
+					  {"year", m.year},
+					  {"length", m.length},
+					  //{"directors", m.directors},
+					  //{"writers", m.writers},
+					  //{"cast", m.cast}
+				};
+			}
+
+			void save_as_json(const movie_list& movies, const fs::path& save_to)
+			{
+				if(std::ofstream jsonfile(save_to); jsonfile.is_open())
+				{
+					// jsonfile << serialize(value_from(movies)) << std::endl;
+				}
+			}
+
+		}  // namespace Boost
+	}	   // namespace JSON
 
 	inline namespace XML
 	{

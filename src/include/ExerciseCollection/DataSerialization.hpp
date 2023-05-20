@@ -63,7 +63,13 @@ namespace DataSerialization
 		/// @param load_from filepath to load from
 		/// @return a collection of movies
 		auto load_from_json(const fs::path& load_from) -> movie_list;
+
+		namespace Boost
+		{
+			void save_as_json(const movie_list& movies, const fs::path& save_to);
+		}
 	}  // namespace JSON
+
 
 	/// @brief Functions to (de)serialize data to the XML format
 	inline namespace XML
