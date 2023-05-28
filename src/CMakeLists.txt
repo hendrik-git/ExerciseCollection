@@ -5,6 +5,7 @@ add_library(ExerciseCollection STATIC
     # Header files
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/Cryptography.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/DataSerialization.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/DataStructures.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/DesignPatternProblems.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/LanguageFeatures.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/ExerciseCollection/Logger.hpp
@@ -15,6 +16,7 @@ add_library(ExerciseCollection STATIC
     # Source files
     ${CMAKE_CURRENT_SOURCE_DIR}/Cryptography.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/DataSerialization.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/DataStructures.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/DesignPatternProblems.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/LanguageFeatures.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
