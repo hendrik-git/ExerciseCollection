@@ -1,6 +1,7 @@
 #include <ExerciseCollection/DataStructures.hpp>
 #include <catch2/catch_all.hpp>
 #include <iostream>
+#include <thread>
 
 using namespace DataStructures;
 

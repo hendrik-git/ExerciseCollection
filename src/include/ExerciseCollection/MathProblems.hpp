@@ -28,6 +28,7 @@ namespace MathProblems
 			if(a % i == 0 && b % i == 0)
 				return i;
 		}
+		return 1;
 	};
 
 	/// @brief Returns the least common multiple of two positive input numbers
@@ -42,6 +43,7 @@ namespace MathProblems
 			if(i % a == 0 && i % b == 0)
 				return i;
 		}
+		return a*b;
 	};
 
 	/// @brief Returns the largest prime number up to a given value

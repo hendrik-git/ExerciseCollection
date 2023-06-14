@@ -83,7 +83,9 @@ namespace Log
 			}
 
 			// pass the message to the logger for printing
-			auto str = fmt::format(format_str, args...);
+			//// auto str = fmt::format(format_str, args...); requires constexpr
+			// see https://stackoverflow.com/questions/68675303/how-to-create-a-function-that-forwards-its-arguments-to-fmtformat-keeping-the
+			auto str = fmt::vformat(format_str, fmt::make_format_args(std::forward<Args>(args)...));
 			logger.log(verbosity, str);
 			return PrintStatus::Printed;
 		}

@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <functional>
 #include <ranges>
+#include <mutex>
 #include <shared_mutex>
 #include <stdexcept>
 
@@ -75,7 +76,7 @@ namespace DataStructures
 		  public:
 			explicit circular_buffer(const size_t size) : data_(size) {}
 
-			auto clear() noexcept -> bool
+			auto clear() noexcept -> void
 			{
 				head_ = -1;
 				size_ = 0;

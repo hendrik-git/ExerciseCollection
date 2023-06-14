@@ -7,6 +7,8 @@
 #include <iostream>
 #include <memory>
 #include <shared_mutex>
+#include <mutex>
+#include <atomic>
 
 namespace fs = std::filesystem;
 
