@@ -15,10 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Configure
-      working-directory: ${{runner.workspace}}
-      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      working-directory: ${{github.workspace}}
+      run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: Build
-      working-directory: ${{runner.workspace}}
+      working-directory: ${{github.workspace}}
       run: cmake --build build --config ${{env.BUILD_TYPE}}
   
   test:
