@@ -18,6 +18,7 @@ include(git_commands) # update submodules, get the latest git commit
 include(macros) # load custom functions and macros
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF) # to build and link dynamic or static
+option(BUILD_DOCS        "Building code documentation"  ON ) # use doxygen
 
 # set the output directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
@@ -121,8 +122,11 @@ include(graphviz)
 include(cmake-format)
 include(cmake-lint)
 include(cpp_check)
-#include(poxy)
-include(documentation)
+
+if(BUILD_DOCS)
+    #include(poxy)
+    include(documentation)
+endif()
 
 # -------------------------------------------------------------------------------------------------
 # Visual Studio settings
