@@ -1,0 +1,22 @@
+name: Windows
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Configure
+      working-directory: ${{github.workspace}}
+      run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_DOCS=FALSE
+    - name: Build
+      working-directory: ${{github.workspace}}
+      run: cmake --build build --config ${{env.BUILD_TYPE}}
