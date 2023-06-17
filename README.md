@@ -1,5 +1,6 @@
 # ExerciseCollection
 
+![Windows Build Status](https://img.shields.io/github/actions/workflow/status/hendrik-git/ExerciseCollection/Windows.yml?logo=Windows&style=for-the-badge)
 ![Linux Build Status](https://img.shields.io/github/actions/workflow/status/hendrik-git/ExerciseCollection/Linux.yml?logo=Linux&style=for-the-badge)
 ![License](https://img.shields.io/github/license/hendrik-git/ExerciseCollection?style=for-the-badge)
 ![Language count](https://img.shields.io/github/languages/count/hendrik-git/ExerciseCollection?style=for-the-badge)
