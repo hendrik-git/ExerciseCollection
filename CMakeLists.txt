@@ -56,6 +56,8 @@ setfolderinvs(Catch2WithMain Dependencies)
 CPMAddPackage("gh:zeux/pugixml@1.13")
 setfolderinvs(pugixml-static Dependencies)
 
+set(CRYPTOPP_BUILD_TESTING OFF)
+set(CRYPTOPP_INSTALL       OFF)
 CPMAddPackage("gh:abdes/cryptopp-cmake#CRYPTOPP_8_7_0_1")
 setfolderinvs(cryptopp Dependencies)
 
