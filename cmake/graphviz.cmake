@@ -9,7 +9,7 @@ if(NOT EXE_DOT)
 else()
     message(STATUS "Graphviz executable found! Adding target.")
     add_custom_target(
-        graphviz ALL
+        graphviz EXCLUDE_FROM_ALL
         COMMAND ${CMAKE_COMMAND} "--graphviz=TestApp.dot" .
         COMMAND dot -Tpng TestApp.dot -o ${CMAKE_SOURCE_DIR}/docs/TestApp.png
         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
