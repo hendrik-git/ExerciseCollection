@@ -14,6 +14,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # tell cmake to look into the local /cmake subdirectory to look for modules (.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+include(ccache) # use ccache if possible
 include(git_commands) # update submodules, get the latest git commit
 include(macros) # load custom functions and macros
 
