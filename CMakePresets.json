@@ -52,12 +52,12 @@
         },
         {
             "name": "GCC12",
-            "displayName": "GCC 12.1.0 x86_64-linux-gnu",
+            "displayName": "Ninja GCC 12.1.0 x86_64-linux-gnu",
             "description": "Using compilers: C = /usr/bin/gcc-12",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-                "CMAKE_C_COMPILER": "/usr/bin/gcc-12",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         }
